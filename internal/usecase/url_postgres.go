@@ -2,8 +2,10 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"github.com/Rafiur/go-url-shortener/internal/domain/entity"
 	"github.com/Rafiur/go-url-shortener/internal/infrastructure/repository"
+	"github.com/asaskevich/govalidator"
 )
 
 type URLPostgresService struct {
@@ -15,6 +17,11 @@ func NewURLPostgresService(urlPostgresRepo repository.URLPostgresRepo) *URLPostg
 }
 
 func (s *URLPostgresService) Create(ctx context.Context, req *entity.URL) error {
+
+	if !govalidator.IsURL(req.OriginalURL) {
+		return errors.New("Invalid URL")
+	}
+
 	err := s.URLPostgresRepo.Create(ctx, req)
 	if err != nil {
 		return err
