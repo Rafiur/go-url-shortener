@@ -1,4 +1,4 @@
-package repo_postgres
+package repo_redis
 
 import (
 	"context"

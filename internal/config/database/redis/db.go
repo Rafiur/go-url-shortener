@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func setupRedis(conf *config.Config) (*redis.Client, error) {
+func SetupRedis(conf *config.Config) (*redis.Client, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     conf.RedisAddress,
 		Password: "", // no password set
