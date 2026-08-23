@@ -2,8 +2,11 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"github.com/Rafiur/go-url-shortener/internal/domain/entity"
 	"github.com/Rafiur/go-url-shortener/internal/infrastructure/repository"
+	"github.com/Rafiur/go-url-shortener/utils"
+	"github.com/asaskevich/govalidator"
 )
 
 type URLRedisService struct {
@@ -15,6 +18,14 @@ func NewURLRedisService(repo repository.URLRedisRepo) *URLRedisService {
 }
 
 func (s *URLRedisService) Create(ctx context.Context, req *entity.URL) error {
+	if !govalidator.IsURL(req.OriginalURL) {
+		return errors.New("Invalid URL")
+	}
+
+	if req.ShortCode == "" {
+		req.ShortCode = utils.GenerateShortCode(shortCodeLength)
+	}
+
 	err := s.URLRedisRepo.Create(ctx, req)
 	if err != nil {
 		return err

@@ -36,11 +36,10 @@ type Logger struct {
 
 func NewConfig(configFile string) *Config {
 	config := Config{}
-	err := godotenv.Load(configFile)
-	if err != nil {
-		return nil
+	if err := godotenv.Load(configFile); err != nil {
+		log.Printf("no %s file found, falling back to process environment: %v", configFile, err)
 	}
-	err = cleanenv.ReadEnv(&config)
+	err := cleanenv.ReadEnv(&config)
 	if err != nil {
 		log.Fatalln(err)
 	}

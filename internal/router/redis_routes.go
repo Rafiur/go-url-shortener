@@ -8,4 +8,5 @@ import (
 func InitRedisRoutes(g *echo.Group, h *handler.Handler) {
 	g.POST("", h.CreateRedisURL)
 	g.GET("", h.GetRedisURL)
+	g.GET("/:shortcode", h.RedirectRedisURL)
 }

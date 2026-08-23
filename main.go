@@ -1,7 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"context"
+	"log"
+
 	"github.com/Rafiur/go-url-shortener/internal/config"
 	"github.com/Rafiur/go-url-shortener/internal/config/database/postgres"
 	"github.com/Rafiur/go-url-shortener/internal/config/database/redis"
@@ -16,10 +18,15 @@ import (
 
 func main() {
 	conf := config.NewConfig("config.env")
+
 	dbPostgres := postgres.NewDB(conf)
+	if err := postgres.Migrate(context.Background(), dbPostgres); err != nil {
+		log.Fatalf("failed to migrate postgres schema: %v", err)
+	}
+
 	redisClient, err := redis.SetupRedis(conf)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalf("failed to connect to redis: %v", err)
 	}
 
 	repoP := repo_postgres.NewURLPostgresRepo(dbPostgres)

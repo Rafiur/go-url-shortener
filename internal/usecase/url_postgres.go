@@ -5,8 +5,11 @@ import (
 	"errors"
 	"github.com/Rafiur/go-url-shortener/internal/domain/entity"
 	"github.com/Rafiur/go-url-shortener/internal/infrastructure/repository"
+	"github.com/Rafiur/go-url-shortener/utils"
 	"github.com/asaskevich/govalidator"
 )
+
+const shortCodeLength = 7
 
 type URLPostgresService struct {
 	URLPostgresRepo repository.URLPostgresRepo
@@ -20,6 +23,10 @@ func (s *URLPostgresService) Create(ctx context.Context, req *entity.URL) error 
 
 	if !govalidator.IsURL(req.OriginalURL) {
 		return errors.New("Invalid URL")
+	}
+
+	if req.ShortCode == "" {
+		req.ShortCode = utils.GenerateShortCode(shortCodeLength)
 	}
 
 	err := s.URLPostgresRepo.Create(ctx, req)

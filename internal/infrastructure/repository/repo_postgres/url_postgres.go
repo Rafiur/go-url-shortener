@@ -23,10 +23,14 @@ func (repo *URLPostgresRepo) Create(ctx context.Context, req *entity.URL) error 
 	}
 	_, err := repo.db.NewInsert().
 		Model(&data).
+		Returning("*").
 		Exec(ctx)
 	if err != nil {
 		return err
 	}
+
+	req.ID = data.ID
+	req.CreatedAt = data.CreatedAt
 	return nil
 }
 

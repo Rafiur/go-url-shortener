@@ -8,4 +8,5 @@ import (
 func InitPostgresRoutes(g *echo.Group, h *handler.Handler) {
 	g.POST("", h.CreatePostgresURL)
 	g.GET("", h.GetPostgresURL)
+	g.GET("/:shortcode", h.RedirectPostgresURL)
 }
