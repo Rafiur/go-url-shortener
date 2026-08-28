@@ -1,8 +1,12 @@
 package handler
 
 import (
+	"errors"
 	"fmt"
+	"net/http"
+
 	"github.com/Rafiur/go-url-shortener/internal/domain/entity"
+	"github.com/Rafiur/go-url-shortener/internal/usecase"
 	"github.com/Rafiur/go-url-shortener/utils"
 	"github.com/labstack/echo/v4"
 )
@@ -27,7 +31,13 @@ func (h *Handler) CreatePostgresURL(c echo.Context) error {
 
 	err := h.URLPostgresService.Create(ctx, &url)
 	if err != nil {
-		return c.JSON(400, utils.APIResponse{
+		// A taken alias is a conflict, not a malformed request.
+		status := http.StatusBadRequest
+		if errors.Is(err, usecase.ErrShortCodeTaken) {
+			status = http.StatusConflict
+		}
+
+		return c.JSON(status, utils.APIResponse{
 			Success: false,
 			Error:   fmt.Sprint(err),
 			Message: "Failed to Create PostgresURL",
@@ -84,5 +94,6 @@ func (h *Handler) RedirectPostgresURL(c echo.Context) error {
 		})
 	}
 
+	h.recordClick(ctx, shortCode)
 	return c.Redirect(302, url.OriginalURL)
 }

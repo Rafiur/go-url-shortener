@@ -2,16 +2,34 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/Rafiur/go-url-shortener/internal/domain/entity"
+	"github.com/Rafiur/go-url-shortener/internal/infrastructure/repository"
 	"github.com/Rafiur/go-url-shortener/utils"
 	"github.com/labstack/echo/v4"
 )
+
+// cacheUnavailable short-circuits the Redis-only endpoints when the app started
+// without a reachable cache. The Postgres endpoints and the root redirect keep
+// working regardless.
+func (h *Handler) cacheUnavailable(c echo.Context) error {
+	return c.JSON(http.StatusServiceUnavailable, utils.APIResponse{
+		Success: false,
+		Error:   repository.ErrRedisUnavailable.Error(),
+		Message: "Redis is not configured or was unreachable at startup",
+	})
+}
 
 func (h *Handler) CreateRedisURL(c echo.Context) error {
 	var (
 		req entity.Request
 		ctx = c.Request().Context()
 	)
+	if !h.URLRedisService.Available() {
+		return h.cacheUnavailable(c)
+	}
+
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(400, utils.APIResponse{
 			Success: false,
@@ -45,6 +63,10 @@ func (h *Handler) GetRedisURL(c echo.Context) error {
 		urlID = c.QueryParam("shortcode")
 		ctx   = c.Request().Context()
 	)
+	if !h.URLRedisService.Available() {
+		return h.cacheUnavailable(c)
+	}
+
 	if urlID == "" {
 		return c.JSON(400, utils.APIResponse{
 			Success: false,
@@ -73,6 +95,9 @@ func (h *Handler) RedirectRedisURL(c echo.Context) error {
 		shortCode = c.Param("shortcode")
 		ctx       = c.Request().Context()
 	)
+	if !h.URLRedisService.Available() {
+		return h.cacheUnavailable(c)
+	}
 
 	url, err := h.URLRedisService.Get(ctx, shortCode)
 	if err != nil {

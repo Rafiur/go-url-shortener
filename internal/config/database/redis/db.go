@@ -2,18 +2,31 @@ package redis
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/Rafiur/go-url-shortener/internal/config"
 	"github.com/redis/go-redis/v9"
-	"time"
 )
 
 func SetupRedis(conf *config.Config) (*redis.Client, error) {
-	client := redis.NewClient(&redis.Options{
+	opts := &redis.Options{
 		Addr:     conf.RedisAddress,
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
+		Password: conf.RedisPassword,
+		DB:       0, // use default DB
+	}
+
+	// Managed Redis (Upstash and friends) requires TLS; a local container does not.
+	if conf.RedisTLS {
+		opts.TLSConfig = &tls.Config{
+			MinVersion: tls.VersionTLS12,
+			ServerName: strings.Split(conf.RedisAddress, ":")[0],
+		}
+	}
+
+	client := redis.NewClient(opts)
 
 	// Check if Redis is connected
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

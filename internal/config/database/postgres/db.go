@@ -18,8 +18,9 @@ var DB *bun.DB
 
 func NewDB(conf *config.Config) *bun.DB {
 	var err error
-	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable&search_path=%s",
-		conf.DbUser, url.QueryEscape(conf.DbPass), conf.DBHost, conf.DbPort, conf.DbName, conf.DbSchema)
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s&search_path=%s",
+		conf.DbUser, url.QueryEscape(conf.DbPass), conf.DBHost, conf.DbPort, conf.DbName,
+		conf.DbSSLMode, conf.DbSchema)
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
 
 	err = sqldb.Ping()

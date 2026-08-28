@@ -1,0 +1,56 @@
+# Publishes web/index.html to GitHub Pages as a second front door for the API.
+#
+# GitHub Pages cannot resolve short codes - only the Go backend can issue the
+# redirect - so this page talks to the deployed backend over CORS. Set the repo
+# variable API_BASE_URL (Settings > Secrets and variables > Actions > Variables)
+# to the Render URL, e.g. https://go-url-shortener.onrender.com
+name: Deploy frontend to Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web/index.html"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Point the page at the deployed API
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+        run: |
+          if [ -z "$API_BASE_URL" ]; then
+            echo "::error::Repo variable API_BASE_URL is not set - the published page would call localhost."
+            exit 1
+          fi
+          mkdir -p _site
+          sed 's|var FALLBACK_API = "[^"]*";|var FALLBACK_API = "'"$API_BASE_URL"'";|' \
+            web/index.html > _site/index.html
+          grep -q "$API_BASE_URL" _site/index.html || {
+            echo "::error::FALLBACK_API substitution did not apply."
+            exit 1
+          }
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

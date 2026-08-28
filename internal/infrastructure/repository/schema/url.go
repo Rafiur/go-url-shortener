@@ -11,6 +11,7 @@ type URL struct {
 	ID            int64     `bun:"id,pk,autoincrement"`
 	ShortCode     string    `bun:"short_code,unique,notnull"`
 	OriginalURL   string    `bun:"original_url,notnull"`
+	Clicks        int64     `bun:"clicks,notnull,default:0"`
 	CreatedAt     time.Time `bun:"created_at,default:current_timestamp"`
 }
 
@@ -19,6 +20,7 @@ func (s *URL) SchemaToEntity() *entity.URL {
 		ID:          s.ID,
 		ShortCode:   s.ShortCode,
 		OriginalURL: s.OriginalURL,
+		Clicks:      s.Clicks,
 		CreatedAt:   s.CreatedAt,
 	}
 }

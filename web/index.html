@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>go-url-shortener</title>
+<style>
+  :root {
+    --bg: #0b0d12;
+    --panel: #141821;
+    --input: #1b2029;
+    --border: #262c38;
+    --text: #e6e9ef;
+    --muted: #8b93a5;
+    --accent: #4f8cff;
+    --link: #22d3a6;
+    --danger: #ff6b6b;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 48px 20px;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+  }
+
+  .wrap { width: 100%; max-width: 560px; }
+
+  h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: -0.4px; }
+  h1 span { color: var(--accent); }
+
+  .sub { margin: 0 0 28px; color: var(--muted); font-size: 14px; }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 13px;
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+    transition: border-color .15s;
+  }
+
+  input:focus { border-color: var(--accent); }
+  input::placeholder { color: #59617a; }
+
+  button.go {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    background: var(--accent);
+    border: 0;
+    border-radius: 8px;
+    color: #fff;
+    font: 600 15px inherit;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+
+  button.go:hover { opacity: .9; }
+  button.go:disabled { opacity: .5; cursor: not-allowed; }
+
+  .result {
+    margin-top: 18px;
+    padding: 16px;
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .result.error { border-color: var(--danger); }
+  .result.hidden { display: none; }
+
+  .result h2 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+  }
+
+  .short { display: flex; align-items: center; gap: 10px; }
+
+  .short a {
+    flex: 1;
+    min-width: 0;
+    color: var(--link);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .short a:hover { text-decoration: underline; }
+
+  .copy {
+    flex-shrink: 0;
+    padding: 7px 13px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font: 13px inherit;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .copy:hover { border-color: var(--accent); }
+
+  .target {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+    word-break: break-all;
+  }
+
+  .msg { color: var(--danger); font-size: 14px; }
+
+  details {
+    margin-top: 14px;
+    padding: 13px 18px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  summary { cursor: pointer; color: var(--muted); font-size: 13px; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "\25B8\00a0\00a0"; }
+  details[open] summary::before { content: "\25BE\00a0\00a0"; }
+
+  details label { margin-top: 16px; }
+  .hint { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+
+  footer { margin-top: 24px; text-align: center; font-size: 13px; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>go-url-shortener<span>.</span></h1>
+  <p class="sub">Go &middot; Echo &middot; PostgreSQL &middot; Redis</p>
+
+  <div class="card">
+    <label for="url">Long URL</label>
+    <input type="url" id="url" placeholder="https://example.com/a/very/long/path"
+           autocomplete="off" spellcheck="false" autofocus>
+    <button class="go" id="go">Shorten</button>
+
+    <div class="result hidden" id="result"></div>
+  </div>
+
+  <details id="settings">
+    <summary>API endpoint</summary>
+    <label for="api">Base URL</label>
+    <input type="text" id="api" placeholder="http://localhost:8080" autocomplete="off" spellcheck="false">
+    <p class="hint">Where the Go backend is running. Saved in this browser.</p>
+  </details>
+
+  <footer>
+    <a href="https://github.com/Rafiur/go-url-shortener" target="_blank" rel="noopener">source on github</a>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Backend to use when this page is NOT served by the Go binary itself —
+  // i.e. when it is hosted on GitHub Pages. Point it at your deployed API.
+  var FALLBACK_API = "http://localhost:8080";
+
+  var urlIn = document.getElementById("url");
+  var apiIn = document.getElementById("api");
+  var goBtn = document.getElementById("go");
+  var box = document.getElementById("result");
+  var settings = document.getElementById("settings");
+
+  // --- where is the API? ---------------------------------------------------
+  // ?api=... wins, then a saved value, then this page's own origin when the Go
+  // binary is serving it, then the constant above.
+  function store(key, val) {
+    try {
+      if (val === undefined) return localStorage.getItem(key);
+      localStorage.setItem(key, val);
+    } catch (e) { /* private browsing */ }
+    return null;
+  }
+
+  function defaultApi() {
+    var selfHosted = location.protocol.indexOf("http") === 0 &&
+                     !/\.github\.io$/i.test(location.hostname);
+    return selfHosted ? location.origin : FALLBACK_API;
+  }
+
+  var override = new URLSearchParams(location.search).get("api");
+  if (override) store("api", override.replace(/\/+$/, ""));
+
+  apiIn.value = store("api") || defaultApi();
+
+  apiIn.addEventListener("change", function () {
+    apiIn.value = apiIn.value.trim().replace(/\/+$/, "") || defaultApi();
+    store("api", apiIn.value);
+  });
+
+  function api() { return apiIn.value.trim().replace(/\/+$/, ""); }
+
+  // --- rendering -----------------------------------------------------------
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function fail(msg) {
+    box.className = "result error";
+    box.innerHTML = "<h2>Error</h2><p class='msg'>" + esc(msg) + "</p>";
+  }
+
+  function succeed(code, original) {
+    var link = api() + "/" + code;
+    box.className = "result";
+    box.innerHTML =
+      "<h2>Short link</h2>" +
+      "<div class='short'>" +
+        "<a href='" + esc(link) + "' target='_blank' rel='noopener'>" + esc(link) + "</a>" +
+        "<button class='copy' type='button'>Copy</button>" +
+      "</div>" +
+      "<div class='target'>&rarr; " + esc(original) + "</div>";
+
+    box.querySelector(".copy").addEventListener("click", function () {
+      var btn = this;
+      var flash = function () {
+        btn.textContent = "Copied";
+        setTimeout(function () { btn.textContent = "Copy"; }, 1500);
+      };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(flash, function () {});
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = link;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); flash(); } catch (e) { /* ignore */ }
+        document.body.removeChild(ta);
+      }
+    });
+  }
+
+  // --- submit --------------------------------------------------------------
+  function shorten() {
+    var long = urlIn.value.trim();
+    if (!long) { urlIn.focus(); return; }
+    if (!/^https?:\/\//i.test(long)) long = "https://" + long;
+
+    box.className = "result";
+    box.innerHTML = "<h2>Working&hellip;</h2>";
+    goBtn.disabled = true;
+
+    fetch(api() + "/pg", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: long, short: "" })
+    })
+      .then(function (res) {
+        return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+      })
+      .then(function (r) {
+        if (!r.ok || !r.body.success) {
+          fail(r.body.error || r.body.message || "Request failed");
+          return;
+        }
+        succeed(r.body.data.short_code, r.body.data.original_url);
+      })
+      .catch(function () {
+        fail("Could not reach the API at " + api() + ". Check that the backend is running.");
+        settings.open = true;
+      })
+      .then(function () { goBtn.disabled = false; });
+  }
+
+  goBtn.addEventListener("click", shorten);
+  urlIn.addEventListener("keydown", function (e) { if (e.key === "Enter") shorten(); });
+})();
+</script>
+</body>
+</html>

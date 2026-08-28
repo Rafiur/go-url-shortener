@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: go-url-shortener
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    envVars:
+      # --- Neon (Postgres) --------------------------------------------------
+      # From the Neon dashboard connection string:
+      # postgres://<DBUSER>:<DBPASS>@<DBHOST>/<DBNAME>
+      - key: DBHOST
+        sync: false
+      - key: DBUSER
+        sync: false
+      - key: DBPASS
+        sync: false
+      - key: DBPORT
+        value: "5432"
+      - key: DBNAME
+        sync: false
+      - key: DBSCHEMA
+        value: public
+      - key: DBSSLMODE
+        value: require
+
+      # --- Upstash (Redis) --------------------------------------------------
+      # REDIS_ADDRESS is host:port, e.g. eu1-xxx.upstash.io:6379
+      - key: REDIS_ADDRESS
+        sync: false
+      - key: REDIS_PASSWORD
+        sync: false
+      - key: REDIS_TLS
+        value: "true"
+
+      # --- app --------------------------------------------------------------
+      - key: DEBUG
+        value: "false"
+      # Set this to your Pages origin only if you also host the UI there,
+      # e.g. https://rafiur.github.io
+      - key: ALLOWED_ORIGINS
+        sync: false

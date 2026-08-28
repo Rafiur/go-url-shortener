@@ -3,6 +3,7 @@ module github.com/Rafiur/go-url-shortener
 go 1.23.1
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.13.3
@@ -12,11 +13,11 @@ require (
 	github.com/uptrace/bun/driver/pgdriver v1.2.11
 	github.com/uptrace/bun/extra/bundebug v1.2.11
 	github.com/uptrace/bun/extra/bunotel v1.2.11
+	golang.org/x/time v0.8.0
 )
 
 require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
-	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/fatih/color v1.18.0 // indirect

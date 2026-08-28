@@ -1,0 +1,14 @@
+# Go tooling (gofmt, and therefore CI) expects LF. Pin it so the check does not
+# depend on each contributor's core.autocrlf setting.
+* text=auto
+
+*.go text eol=lf
+*.mod text eol=lf
+*.sum text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+Dockerfile text eol=lf
+.gitignore text eol=lf
+.dockerignore text eol=lf
