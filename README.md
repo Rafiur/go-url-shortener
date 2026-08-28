@@ -2,6 +2,10 @@
 
 [![CI](https://github.com/Rafiur/go-url-shortener/actions/workflows/ci.yml/badge.svg)](https://github.com/Rafiur/go-url-shortener/actions/workflows/ci.yml)
 
+**[Live demo](https://go-url-shortener-33xx.onrender.com)** — hosted free on
+Render, so the first request after a quiet spell takes ~30s while the instance
+wakes up.
+
 A URL shortener written in Go, structured with clean architecture. Paste a long
 URL, get a short one back; hitting the short link 302s to the original.
 
@@ -79,10 +83,14 @@ comparing them side by side. The root `/:shortcode` route is the one real links
 use.
 
 ```bash
-curl -X POST http://localhost:8080/pg \
+curl -X POST https://go-url-shortener-33xx.onrender.com/pg \
   -H 'Content-Type: application/json' \
   -d '{"url":"https://example.com/a/very/long/path","short":""}'
 ```
+
+Swap the host for `http://localhost:8080` when running locally. Leave `short`
+empty for a generated code, or set it to claim a custom alias — a taken alias
+comes back as `409`.
 
 ```json
 {
@@ -91,6 +99,7 @@ curl -X POST http://localhost:8080/pg \
     "id": 1,
     "short_code": "rdQfuhr",
     "original_url": "https://example.com/a/very/long/path",
+    "clicks": 0,
     "created_at": "2026-08-25T18:40:53.874151Z"
   },
   "message": "Successfully Created PostgresURL"
@@ -131,6 +140,9 @@ local dev uses the file and a deployed instance uses injected env vars.
 A `Dockerfile` builds a static binary into an Alpine image, and `render.yaml`
 describes the service. The frontend is compiled into the binary, so one
 container serves both the UI and the API.
+
+The live instance runs on Render's free plan against Neon (Postgres) and Upstash
+(Redis). To stand up your own:
 
 1. **Postgres** — create a project on [Neon](https://neon.tech), take
    `DBHOST` / `DBUSER` / `DBPASS` / `DBNAME` from the connection string, set
