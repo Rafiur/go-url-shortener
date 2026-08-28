@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="719d9ae6-0b67-4f7a-abff-018be2fadd2b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/internal/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/config/database/postgres/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/config/database/postgres/db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/delivery/handler/url_postgres.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/delivery/handler/url_postgres.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/delivery/handler/url_redis.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/delivery/handler/url_redis.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/domain/entity/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/entity/request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/domain/entity/response.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/infrastructure/repository/schema/url_redis.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/router/postgres_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/router/postgres_routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/router/redis_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/router/redis_routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/router/router.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/usecase/url_postgres.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/url_postgres.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/usecase/url_redis.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/url_redis.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,21 +16,84 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Rafiur"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Rafiur&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Rafiur/go-url-shortener.git",
-    "accountId": "e211adfd-ed45-47ea-9a1a-43599610a061"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:Rafiur/go-url-shortener.git&quot;,
+    &quot;accountId&quot;: &quot;e211adfd-ed45-47ea-9a1a-43599610a061&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.1939523342346696" />
+      <entry key="MS500" value="2.114201248010514" />
+      <entry key="S2" value="3.1742168904025956" />
+      <entry key="S5" value="3.6170968118040308" />
+      <entry key="S10" value="3.798230450934297" />
+      <entry key="S30" value="3.9302828226173143" />
+      <entry key="S60" value="3.964822670660459" />
+      <entry key="M2" value="3.98233078675554" />
+      <entry key="M5" value="3.992912871384392" />
+      <entry key="M10" value="3.9964531857861805" />
+      <entry key="M15" value="3.997634734294911" />
+      <entry key="M30" value="3.9988170055257166" />
+      <entry key="H1" value="3.9994084123248204" />
+      <entry key="H2" value="3.999704183548824" />
+      <entry key="H4" value="3.9998520861205056" />
+      <entry key="D1" value="3.9999753469014427" />
+      <entry key="W1" value="3.999996478109545" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.1021294619097988" />
+      <entry key="MS500" value="2.0667275895578103" />
+      <entry key="S2" value="3.1413368020819017" />
+      <entry key="S5" value="3.5991516149798954" />
+      <entry key="S10" value="3.78820882385336" />
+      <entry key="S30" value="3.9266803263995897" />
+      <entry key="S60" value="3.9629867107953833" />
+      <entry key="M2" value="3.9814039746788072" />
+      <entry key="M5" value="3.9925400068127135" />
+      <entry key="M10" value="3.9962663951958346" />
+      <entry key="M15" value="3.9975101274865015" />
+      <entry key="M30" value="3.9987546622161423" />
+      <entry key="H1" value="3.9993772306878217" />
+      <entry key="H2" value="3.9996885902340384" />
+      <entry key="H4" value="3.9998442888389496" />
+      <entry key="D1" value="3.99997404726782" />
+      <entry key="W1" value="3.999996292445475" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="3GDE9Mna3p67Uc79Pf46ryQ7l83" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -50,13 +101,20 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.GoLinterPluginOnboarding": "true",
+    "RunOnceActivity.GoLinterPluginOnboardingV2": "true",
     "RunOnceActivity.GoLinterPluginStorageMigration": "true",
+    "RunOnceActivity.GoOptimizationToolWindowEnableInLayout.v333333": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.go.analysis.ui.options.defaults": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
@@ -66,11 +124,22 @@
     "nodejs_package_manager_path": "npm"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="go build github.com/Rafiur/go-url-shortener" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+      <module name="go-url-shortener" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Rafiur/go-url-shortener" />
+      <directory value="$PROJECT_DIR$" />
+      <auto_managed_config_id value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-3b128438d3f6-07d2d2d66b1e-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-251.29188.35" />
-        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-GO-251.29188.35" />
+        <option value="bundled-gosdk-63c95d513abe-9addb268e56c-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-262.9437.286" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-GO-262.9437.286" />
       </set>
     </attachedChunks>
   </component>
@@ -86,8 +155,5 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VgoProject">
-    <settings-migrated>true</settings-migrated>
   </component>
 </project>
